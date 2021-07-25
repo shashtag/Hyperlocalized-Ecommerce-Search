@@ -1,11 +1,10 @@
-import { ObjectId } from "mongodb";
 import mongoose from "mongoose";
 
-const schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 const productStoreSchema = new Schema(
   {
-    storeid: ObjectId,
+    storeId: { type: mongoose.Types.ObjectId, ref: "store" },
     price: Number,
     stock: Number,
   },
@@ -14,8 +13,8 @@ const productStoreSchema = new Schema(
 
 const productSchema = new Schema(
   {
-    name: { type: String, required: true, trim: true },
-    store: [productStoreSchema],
+    name: { type: String },
+    stores: [productStoreSchema],
   },
   { timestamps: true },
 );
