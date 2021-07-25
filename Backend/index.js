@@ -1,23 +1,20 @@
 import app from "./server.js";
-import mongodb from "mongodb";
+import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
-const MongoClient = mongodb.MongoClient;
 
 const port = process.env.PORT || 8000;
 
-MongoClient.connect(process.env.DB_URI, {
-  // poolSize: 50,
-  wtimeoutMS: 2500,
-  useNewUrlParser: true,
-})
-  .catch((err) => {
-    console.log(err);
-    process.exit(1);
+mongoose
+  .connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
   })
-  .then(async (client) => {
-    app.listen(port, () => {
-      console.log(`listening to port ${port}`);
-    });
-  });
+  .then(() => console.log("Database Connected"))
+  .catch((err) => console.log(err));
+
+app.listen(port, () => {
+  console.log(`listening to port ${port}`);
+});
