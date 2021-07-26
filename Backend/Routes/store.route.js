@@ -3,23 +3,26 @@ import Store from "../Models/store.model.js";
 
 const router = express.Router();
 
-router.route("/").get((req, res) => {
-  Store.find()
-    .then((store) => res.json(store))
-    .catch((err) => res.status(400).json("Error" + err));
+router.get("/", async (req, res) => {
+  try {
+    const store = await Store.find();
+    res.json(store);
+  } catch (e) {
+    res.status(400).json("Error" + e);
+  }
 });
 
-router.route("/add").post((req, res) => {
-  const name = req.body.name;
-  const location = req.body.location;
-
-  const newStore = new Store({ name, location });
-  console.log(newStore);
-
-  newStore
-    .save()
-    .then(() => res.json("user added"))
-    .catch((err) => res.status(400).json("Error" + err));
+router.post("/add", async (req, res) => {
+  try {
+    const newStore = new Store({
+      name: req.body.name,
+      location: req.body.location,
+    });
+    await newStore.save();
+    res.json("Store added");
+  } catch (e) {
+    res.status(400).json("Error" + e);
+  }
 });
 
 export default router;

@@ -3,27 +3,37 @@ import Product from "../Models/product.model.js";
 
 const router = express.Router();
 
-router.route("/").get((req, res) => {
-  Product.find()
-    .then((product) => res.json(product))
-    .catch((err) => res.status(400).json("Error" + err));
+router.get("/", async (req, res) => {
+  try {
+    const product = await Product.find();
+    res.json(product);
+  } catch (e) {
+    res.status(400).json("Error" + e);
+  }
 });
 
-router.route("/add").post((req, res) => {
-  const name = req.body.name;
-  let store = [];
-  console.log(req.body.store);
-  req.body.store.forEach((e) => {
-    store.push(e);
-  });
-  console.log(store);
+router.post("/add", async (req, res) => {
+  try {
+    const newProd = new Product({
+      name: req.body.name,
+      stores: req.body.store,
+    });
+    await newProd.save();
+    res.json("Product added");
+  } catch (e) {
+    res.status(400).json("Error" + e);
+  }
+});
+router.post("/search", async (req, res) => {
+  try {
+    let p = await Product.find({
+      name: { $regex: "^" + req.body.search, $options: "i" },
+    }).limit(5);
 
-  // const newProd = new Product({ name, store });
-  console.log(newProd);
-  // newProd
-  //   .save()
-  //   .then(() => res.json("user added"))
-  //   .catch((err) => res.status(400).json("Error" + err));
+    res.json(p);
+  } catch (e) {
+    res.status(400).json("Error" + e);
+  }
 });
 
 export default router;
