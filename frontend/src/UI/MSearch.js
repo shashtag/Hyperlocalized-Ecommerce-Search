@@ -8,8 +8,6 @@ import Locations from "../Data/Locations";
 import { post } from "../APIs/Post";
 
 const MSelect = ({ location }) => {
-  const [input, setInput] = useState("");
-
   const ctheme = (theme) => {
     return {
       ...theme,
