@@ -8,6 +8,8 @@ import Locations from "../Data/Locations";
 import { post } from "../APIs/Post";
 
 const MSelect = ({ location }) => {
+  const [input, setInput] = useState("");
+
   const ctheme = (theme) => {
     return {
       ...theme,
@@ -47,6 +49,7 @@ const MSelect = ({ location }) => {
   };
 
   const Control = ({ children, ...props }) => {
+    console.log(children);
     return (
       <components.Control {...props}>
         <i class='fas fa-search'></i>
@@ -56,29 +59,52 @@ const MSelect = ({ location }) => {
     );
   };
 
-  const handleInputChange = async (val) => {
+  // const handleInputChange = (val) => {
+  //   setInput(val);
+  //   // const { result } = await post("product/search", {
+  //   //   search: val,
+  //   //   location: location,
+  //   // });
+  //   //
+  //   return val;
+  // };
+  const promiseOptions = async (val) => {
+    console.log(val);
     const { result } = await post("product/search", {
       search: val,
       location: location,
     });
-    console.log(val);
-    console.log(result);
+    return result;
+  };
+  const Option = ({ ...props }) => {
+    console.log(props);
+
+    return (
+      <components.Option {...props}>
+        <div className='option'>{props.data.name}</div>
+        <div className='subOption'>
+          {props.data.name} Available in {props.data.storeNos} store nearby at
+          avg cost of ${props.data.avgPrice}
+        </div>
+      </components.Option>
+    );
   };
 
   return (
     <AsyncSelect
-      cacheOptions
+      options={Locations}
+      // cacheOptions
       styles={customStyles}
       captureMenuScroll={true}
       components={{
+        Option,
         animatedComponents,
         Control,
         DropdownIndicator: () => null,
         IndicatorSeparator: () => null,
       }}
-      onInputChange={handleInputChange}
+      loadOptions={promiseOptions}
       theme={ctheme}
-      options={Locations}
       placeholder='Search'
       className='search'
       isSearchable={true}
