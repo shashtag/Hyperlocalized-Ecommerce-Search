@@ -1,0 +1,13 @@
+.select {
+  min-width: 180px;
+}
+.search {
+  min-width: 475px;
+}
+
+.search,
+.select {
+  font-family: Gilroy-Medium;
+  font-size: "1rem";
+  line-height: "1.25rem";
+}
