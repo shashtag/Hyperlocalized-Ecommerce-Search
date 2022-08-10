@@ -1,7 +1,3 @@
-MERN STACK DEVELOPER INTERN
-ASSIGNMENT
-
-
 Problem Statement
  A store named “ABC-e-store” is expanding its business and is scaling to 200 stores all over India from its current 100 stores. The company wants to sell it’s items to the consumers through an online e-commerce platform so that people can purchase items from any store and from any location in India. You are the lead developer working on this project. You have to design a Search functionality for the platform along with the database design. It is given that the platform should function in the following manner:
 There should be a database for all the stores the company has with relevant information like- name, location, date of setup, no. of employees etc.
